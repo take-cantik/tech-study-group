@@ -41,7 +41,21 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = event.message.text
+    bingolist = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+    if event.message.text == "スタート":
+        random.shuffle(bingolist)
+
+        for num in bingolist:
+            if bingolist.index(num) % 3 == 0:
+                message += "\n"
+            message += num
+
+    elif "説明" in event.message.text:
+        message = "ビンゴの説明"
+    else:
+        message = "散歩ビンゴです。開始したい時は「スタート」やり方を知りたい時は「説明」と打ってね。"
+
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=message))

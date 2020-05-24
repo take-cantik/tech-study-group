@@ -44,6 +44,7 @@ def handle_message(event):
     bingolist = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
     if event.message.text == "スタート":
+        message = "ビンゴ"
         random.shuffle(bingolist)
 
         for num in bingolist:

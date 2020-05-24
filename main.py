@@ -59,6 +59,14 @@ def handle_message(event):
                 message += "\n"
             message += num
 
+    elif event.message.text in bingolist:
+        bingolist[bingolist.index(event.message.text)] = 0
+        message = "ビンゴ"
+        for num in bingolist:
+            if bingolist.index(num) % 3 == 0:
+                message += "\n"
+            message += num
+
     elif "説明" in event.message.text:
         message = "ビンゴの説明"
     elif is_finish(number) == 1:

@@ -48,7 +48,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     bingolist = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    number = 0:
+    number = 0
 
     if event.message.text == "スタート":
         message = "ビンゴ"

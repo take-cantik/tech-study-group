@@ -24,6 +24,21 @@ LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
+#クラス指定
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_num = db.Column(db.Integer, unique=False)
+
+    def __init__(self, user_num):
+        self.user_num = user_num
+
+class Bingo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    bingo_num = db.Column(db.Integer, unique=False)
+
+    def __init__(self, bingo_num):
+        self.bingo_num = bingo_num
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -44,7 +59,46 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = event.message.text
+    bingolist = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    if "スタート" in event.message.text:
+        random.shuffle(bingolist)
+
+        message = "ビンゴ\n"
+        n = 0
+
+        for bin_num in reversed(bingolist):
+            bingo = Bingo(bin_num)
+            db.session.add(bingo)
+            db.session.commit()
+
+            if n % 3 == 0:
+                message += "\n"
+
+            message += str(bin_num)
+            n += 1
+
+        number = 1
+    elif num == 1:
+        bingolist = db.session.query(Bingo).all()
+
+        n = 0
+        for bin_num in reversed(bingolist):
+            if n % 3 == 0:
+                message += "\n"
+
+            message += str(bin_num)
+            n += 1
+
+        number = 0:
+    else:
+        message = "ビンゴができるお"
+
+    num = number
+    user = User(num)
+    db.session.add(user)
+    db.session.commit()
+
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=message))

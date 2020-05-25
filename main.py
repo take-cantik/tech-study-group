@@ -12,6 +12,9 @@ from linebot.models import (
 import os
 import random
 
+import cv2
+import numpy as np
+
 app = Flask(__name__)
 
 #環境変数取得
@@ -48,6 +51,13 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     bingolist = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+    >>> d = {'配達員':1,'タピオカ':2,'噴水':3,'密':4,'ジョギング':5,'パトカー':6,'カップル':7,'鳶':8,'黒マスク':9}
+    >>> d
+    {'配達員':1,'タピオカ':2,'噴水':3,'密':4,'ジョギング':5,'パトカー':6,'カップル':7,'鳶':8,'黒マスク':9}
+    >>> type(d)
+    <class 'dict'>
+
     number = 0
 
     if event.message.text == "スタート":

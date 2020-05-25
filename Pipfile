@@ -9,6 +9,7 @@ verify_ssl = true
 flask = "*"
 line-bot-sdk = "*"
 flask-sqlalchemy = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.7"

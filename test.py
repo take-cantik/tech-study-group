@@ -61,7 +61,7 @@ def callback():
 def handle_message(event):
     bingolist = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     userNum = db.session.query(User).all()
-    num = userNum[-1]
+    num = userNum[-1].user_num
 
     if "スタート" in event.message.text:
         random.shuffle(bingolist)
@@ -95,6 +95,7 @@ def handle_message(event):
         number = 0
     else:
         message = "ビンゴができるお"
+        number = 0
 
     num = number
     user = User(num)

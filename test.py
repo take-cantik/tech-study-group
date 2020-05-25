@@ -90,7 +90,7 @@ def handle_message(event):
             message += str(bin_num)
             n += 1
 
-        number = 0:
+        number = 0
     else:
         message = "ビンゴができるお"
 

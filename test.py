@@ -69,28 +69,33 @@ def handle_message(event):
         message = "ビンゴ\n"
         n = 0
 
-        for bin_num in reversed(bingolist):
-            bingo = Bingo(bin_num)
-            db.session.add(bingo)
-            db.session.commit()
+        for bin_num1 in bingolist:
 
             if n % 3 == 0:
                 message += "\n"
 
-            message += str(bin_num)
+            message += str(bin_num1)
             n += 1
+
+        for bin_num2 in reversed(bingolist):
+            bingo = Bingo(bin_num2)
+            db.session.add(bingo)
+            db.session.commit()
 
         number = 1
     elif num == 1:
         bingolist = db.session.query(Bingo).all()
         message = "ビンゴ\n"
         n = 0
-        for bin_num in reversed(bingolist.bingo_num):
+        for bin_num in reversed(bingolist):
             if n % 3 == 0:
                 message += "\n"
 
-            message += str(bin_num)
+            message += str(bin_num.bingo_num)
             n += 1
+
+            if n == 9:
+                break
 
         number = 0
     else:

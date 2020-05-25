@@ -83,7 +83,7 @@ def handle_message(event):
         number = 1
     elif num == 1:
         bingolist = db.session.query(Bingo).all()
-
+        message = "ビンゴ\n"
         n = 0
         for bin_num in reversed(bingolist):
             if n % 3 == 0:

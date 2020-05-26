@@ -50,6 +50,7 @@ def handle_message(event):
             k += 1
         im_tiles.append(im_tiles_line)
 
+    im_tiles = np.array(im_tiles)
     im_tile = concat_tile(im_tiles)
     cv2.imwrite('images/opencv_concat_tile.jpg', im_tile)
 

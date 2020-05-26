@@ -59,7 +59,7 @@ def handle_message(event):
         event.reply_token,
         ImageSendMessage(
             original_content_url = "https://teruteruahuro.herokuapp.com/dst/opnecv_concat_tile.jpg",
-            preview_image_url = "https://teruteruahuro.herokuapp.com/dst/opencv_cancat_tile.jpg"
+            preview_image_url = "https://teruteruahuro.herokuapp.com/dst/opencv_concat_tile.jpg"
         )
     )
 

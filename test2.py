@@ -42,9 +42,11 @@ def handle_message(event):
 
     im_tiles_line = []
     im_tiles = []
+    k = 0
     for i in range(3):
         for j in range(3):
             im_tiles_line[j].append(str(bingo_lists[k]) + ".jpg")
+            k += 1
         im_tiles.append(im_tiles_line)
 
     im_tile = concat_tile(im_tiles)

@@ -47,7 +47,7 @@ def handle_message(event):
     k = 0
     for i in range(3):
         for j in range(3):
-            im_path = cv2.imread("images/" + str(bingo_lists[k]) + ".png")
+            im_path = cv2.imread("./images/" + str(bingo_lists[k]) + ".png")
             im_tiles_line.append(im_path)
             k += 1
         im_tiles.append(im_tiles_line)

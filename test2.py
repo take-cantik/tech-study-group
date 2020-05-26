@@ -40,12 +40,12 @@ def callback():
 def handle_message(event):
     bingo_lists = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-    k = 0
-    im_tiles = np.zeros((3, 3))
+    im_tiles_line = []
+    im_tiles = []
     for i in range(3):
         for j in range(3):
-            im_tiles[i][j] = str(bingo_lists[k]) + ".jpg"
-            k += 1
+            im_tiles_line[j].append(str(bingo_lists[k]) + ".jpg")
+        im_tiles.append(im_tiles_line)
 
     im_tile = concat_tile(im_tiles)
     cv2.imwrite('images/opencv_concat_tile.jpg', im_tile)

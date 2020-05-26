@@ -130,9 +130,9 @@ def handle_message(event):
 
         if m == 1:
             for bin_num2 in reversed(binlis):
-            bingo = Bingo(bin_num2)
-            db.session.add(bingo)
-            db.session.commit()
+                bingo = Bingo(bin_num2)
+                db.session.add(bingo)
+                db.session.commit()
 
         number = 1
     else:

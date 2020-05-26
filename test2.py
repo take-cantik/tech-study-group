@@ -47,7 +47,7 @@ def handle_message(event):
     k = 0
     for i in range(3):
         for j in range(3):
-            im_path = cv2.imread("./images/" + str(bingo_lists[k]) + ".png")
+            im_path = cv2.imread("./static/images/" + str(bingo_lists[k]) + ".png")
             im_tiles_line.append(im_path)
             k += 1
         im_tiles.append(im_tiles_line)
@@ -55,13 +55,13 @@ def handle_message(event):
     im_tile = concat_tile(im_tiles)
     import glob
     print(glob.glob("./*"))
-    cv2.imwrite('./images/opencv_concat_tile.jpg', im_tile)
+    cv2.imwrite('./static/dst/opencv_concat_tile.jpg', im_tile)
 
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(
-            original_content_url = "https://teruteruahuro.herokuapp.com/images/1.jpg",
-            preview_image_url = "https://teruteruahuro.herokuapp.com/images/1.jpg"
+            original_content_url = "https://teruteruahuro.herokuapp.com/static/dst/opencv_concat_tile.jpg",
+            preview_image_url = "https://teruteruahuro.herokuapp.com/static/dst/opencv_concat_tile.jpg"
         )
     )
 

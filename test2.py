@@ -43,16 +43,17 @@ def handle_message(event):
 
     im_tiles_line = []
     im_tiles = []
+
     k = 0
     for i in range(3):
         for j in range(3):
-            im_tiles_line.append(str(bingo_lists[k]) + ".jpg")
+            im_path = cv2.imread("images/" + str(bingo_lists[k]) + ".jpg")
+            im_tiles_line.append(im_path)
             k += 1
         im_tiles.append(im_tiles_line)
 
-    im_tiles = np.array(im_tiles)
     im_tile = concat_tile(im_tiles)
-    cv2.imwrite('images/opencv_concat_tile.jpg', im_tile)
+    cv2.imwrite('dst/opencv_concat_tile.jpg', im_tile)
 
     line_bot_api.reply_message(
         event.reply_token,

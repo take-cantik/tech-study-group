@@ -113,10 +113,6 @@ def handle_message(event):
         n = 0
         m = 0
         for bin_num in reversed(bingolist):
-            if n % 3 == 0:
-                message += "\n"
-
-            message += str(bin_num.bingo_num)
             binlis.append(bin_num.bingo_num)
             n += 1
 
@@ -127,6 +123,15 @@ def handle_message(event):
             if str(i) == event.message.text:
                 binlis[binlis.index(i)] = 0
             m = 1
+
+        n = 0
+
+        for binnumnum in binlis:
+            if n % 3 == 0:
+                message += "\n"
+
+            message += str(binnumnum)
+            n += 1
 
         if m == 1:
             for bin_num2 in reversed(binlis):

@@ -11,6 +11,7 @@ line-bot-sdk = "*"
 flask-sqlalchemy = "*"
 psycopg2-binary = "*"
 opencv-python = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.7"

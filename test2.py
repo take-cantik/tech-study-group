@@ -10,6 +10,8 @@ from linebot.models import (
 )
 import random
 import os
+
+import numpy as np
 app = Flask(__name__)
 #環境変数取得
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]

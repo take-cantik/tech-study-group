@@ -58,8 +58,8 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(
-            original_content_url = "https://teruteruahuro.herokuapp.com/dst/opnecv_concat_tile.png",
-            preview_image_url = "https://teruteruahuro.herokuapp.com/dst/opencv_concat_tile.png"
+            original_content_url = "https://teruteruahuro.herokuapp.com/opnecv_concat_tile.png",
+            preview_image_url = "https://teruteruahuro.herokuapp.com/opencv_concat_tile.png"
         )
     )
 

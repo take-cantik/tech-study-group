@@ -55,13 +55,13 @@ def handle_message(event):
     im_tile = concat_tile(im_tiles)
     import glob
     print(glob.glob("./*"))
-    cv2.imwrite('./static/dst/opencv_concat_tile.jpg', im_tile)
+    cv2.imwrite('./static/images/opencv_concat_tile.jpg', im_tile)
 
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(
-            original_content_url = "https://teruteruahuro.herokuapp.com/static/dst/opencv_concat_tile.jpg",
-            preview_image_url = "https://teruteruahuro.herokuapp.com/static/dst/opencv_concat_tile.jpg"
+            original_content_url = "https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg",
+            preview_image_url = "https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg"
         )
     )
 

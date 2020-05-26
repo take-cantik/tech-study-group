@@ -12,6 +12,7 @@ from linebot.models import (
 import os
 import random
 
+import cv2
 import numpy as np
 
 from flask_sqlalchemy import SQLAlchemy

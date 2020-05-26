@@ -45,7 +45,7 @@ def handle_message(event):
     k = 0
     for i in range(3):
         for j in range(3):
-            im_tiles_line[j].append(str(bingo_lists[k]) + ".jpg")
+            im_tiles_line.append(str(bingo_lists[k]) + ".jpg")
             k += 1
         im_tiles.append(im_tiles_line)
 

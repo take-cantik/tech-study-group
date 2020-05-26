@@ -53,6 +53,8 @@ def handle_message(event):
         im_tiles.append(im_tiles_line)
 
     im_tile = concat_tile(im_tiles)
+    import glob
+    print(glob.glob("./*"))
     cv2.imwrite('images/opencv_concat_tile.jpg', im_tile)
 
     line_bot_api.reply_message(

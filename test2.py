@@ -50,6 +50,8 @@ def handle_message(event):
             im_path = cv2.imread("./static/images/" + str(bingo_lists[k]) + ".png")
             im_tiles_line.append(im_path)
             k += 1
+            if k % 3 == 0:
+                im_tiles_line = []
         im_tiles.append(im_tiles_line)
 
     im_tile = concat_tile(im_tiles)

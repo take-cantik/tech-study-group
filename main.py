@@ -74,6 +74,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     bingo_lists = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    bingo_dicts = {'配達員':1, 'タピオカ':2, '噴水':3, '密':4, 'ジョギング':5, 'パトカー':6, 'カップル':7, '鳶':8, '黒マスク':9}
 
     userNum = db.session.query(User).all()
     num = userNum[-1].user_num
@@ -87,7 +88,7 @@ def handle_message(event):
             message += "ビンゴです！"
 
         number = 0
-    elif "スタート" in event.message.text:
+    elif event.message.text == "スタート":
         random.shuffle(bingo_lists)
 
         im_tiles_line = []
@@ -115,22 +116,26 @@ def handle_message(event):
     elif "説明" in event.message.text:
         message = "ビンゴの説明"
     elif num == 1:
-        bingo_lists = db.session.query(Bingo).all()
+        bingo_db = db.session.query(Bingo).all()
         message = "ビンゴ\n"
-        binlis = []
+        bingo_lists = []
         n = 0
         m = 0
-        for bin_num in reversed(bingo_lists):
-            binlis.append(bin_num.bingo_num)
+        for bin_num in reversed(bingo_db):
+            bingo_lists.append(bin_num.bingo_num)
             n += 1
 
             if n == 9:
                 break
 
-        for i in binlis:
-            if str(i) == event.message.text:
-                binlis[binlis.index(i)] = 0
-            m = 1
+    
+
+        for bingo_dict_key, bingo_dict_value in bingo_dicts.items():
+            if bingo_dict_key == event.message.text:
+                for bingo_list in bingo_lists:
+                    if bingo_dict_value == bingo_list:
+                        bingo_lists[bingo_lists.index(bingo_list)] = 0
+        
 
         n = 0
 
@@ -140,7 +145,7 @@ def handle_message(event):
         k = 0
         for i in range(3):
             for j in range(3):
-                im_path = cv2.imread("./static/images/" + str(binlis[k]) + ".png")
+                im_path = cv2.imread("./static/images/" + str(bingo_lists[k]) + ".png")
                 im_tiles_line.append(im_path)
                 k += 1
             im_tiles.append(im_tiles_line)
@@ -150,7 +155,7 @@ def handle_message(event):
         cv2.imwrite('./static/images/opencv_concat_tile.jpg', im_tile)
 
         if m == 1:
-            for bin_num2 in reversed(binlis):
+            for bin_num2 in reversed(bingo_lists):
                 bingo = Bingo(bin_num2)
                 db.session.add(bingo)
                 db.session.commit()

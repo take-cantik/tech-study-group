@@ -135,7 +135,7 @@ def handle_message(event):
                 for bingo_list in bingo_lists:
                     if bingo_dict_value == bingo_list:
                         bingo_lists[bingo_lists.index(bingo_list)] = 0
-        
+                        m = 1
 
         n = 0
 

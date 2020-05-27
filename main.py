@@ -44,6 +44,9 @@ class Bingo(db.Model):
         self.bingo_num = bingo_num
 
 #関数指定
+def concat_tile(im_list_2d):
+    return cv2.vconcat([cv2.hconcat(im_list_h) for im_list_h in im_list_2d])
+
 def is_bingo(finish_num):
     if finish_num == 0:
         return 1
@@ -70,7 +73,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    bingolist = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    bingo_lists = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     userNum = db.session.query(User).all()
     num = userNum[-1].user_num
@@ -85,34 +88,39 @@ def handle_message(event):
 
         number = 0
     elif "スタート" in event.message.text:
-        random.shuffle(bingolist)
+        random.shuffle(bingo_lists)
 
-        message = "ビンゴ\n"
-        n = 0
+        im_tiles_line = []
+        im_tiles = []
 
-        for bin_num1 in bingolist:
+        k = 0
+        for i in range(3):
+            for j in range(3):
+                im_path = cv2.imread("./static/images/" + str(bingo_lists[k]) + ".png")
+                im_tiles_line.append(im_path)
+                k += 1
+            im_tiles.append(im_tiles_line)
+            im_tiles_line = []
 
-            if n % 3 == 0:
-                message += "\n"
-
-            message += str(bin_num1)
-            n += 1
-
-        for bin_num2 in reversed(bingolist):
+        im_tile = concat_tile(im_tiles)
+        
+        cv2.imwrite('./static/images/opencv_concat_tile.jpg', im_tile)
+       
+        for bin_num2 in reversed(bingo_lists):
             bingo = Bingo(bin_num2)
             db.session.add(bingo)
-            db.session.commit()
+            db.session.commit() 
 
         number = 1
     elif "説明" in event.message.text:
         message = "ビンゴの説明"
     elif num == 1:
-        bingolist = db.session.query(Bingo).all()
+        bingo_lists = db.session.query(Bingo).all()
         message = "ビンゴ\n"
         binlis = []
         n = 0
         m = 0
-        for bin_num in reversed(bingolist):
+        for bin_num in reversed(bingo_lists):
             binlis.append(bin_num.bingo_num)
             n += 1
 
@@ -126,12 +134,20 @@ def handle_message(event):
 
         n = 0
 
-        for binnumnum in binlis:
-            if n % 3 == 0:
-                message += "\n"
+        im_tiles_line = []
+        im_tiles = []
 
-            message += str(binnumnum)
-            n += 1
+        k = 0
+        for i in range(3):
+            for j in range(3):
+                im_path = cv2.imread("./static/images/" + str(binlis[k]) + ".png")
+                im_tiles_line.append(im_path)
+                k += 1
+            im_tiles.append(im_tiles_line)
+            im_tiles_line = []
+
+        im_tile = concat_tile(im_tiles)
+        cv2.imwrite('./static/images/opencv_concat_tile.jpg', im_tile)
 
         if m == 1:
             for bin_num2 in reversed(binlis):
@@ -149,9 +165,18 @@ def handle_message(event):
     db.session.add(user)
     db.session.commit()
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=message))
+    if num == 1 or event.message.text == "スタート":
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(
+                original_content_url = "https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg",
+                preview_image_url = "https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg"
+            )
+        )
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message))
 
 
 if __name__ == "__main__":

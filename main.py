@@ -47,11 +47,44 @@ class Bingo(db.Model):
 def concat_tile(im_list_2d):
     return cv2.vconcat([cv2.hconcat(im_list_h) for im_list_h in im_list_2d])
 
-def is_bingo(finish_num):
-    if finish_num == 0:
-        return 1
-    else:
-        return 0
+def is_bingo(finish_lists, finish_num):
+    k = 0
+    #縦判定
+    for i in range(5):
+        for j in range(4):
+            if finish_lists[i] == finish_lists[i+(j+1)*5]:
+                k += 1
+        if k == 4:
+            finish_num += 1
+        k = 0
+
+    #横判定
+    for i in range(0,20,5):
+        for j in range(4):
+            if finish_lists[i] == finish_lists[i+1+j]:
+                k += 1
+        if k == 4:
+            finish_num += 1
+        k = 0
+
+    #斜め判定
+    for i in range(0,24,6):
+        for j in range(4):
+            if finish_lists[i] == finish_lists[i+(j+1)*6]:
+                k += 1
+        if k == 4:
+            finish_num += 1
+        k = 0
+
+    for i in range(4,20,4):
+        for j in range(4):
+            if finish_lists[i] == finish_lists[i+(j+1)*4]:
+                k += 1
+        if k == 4:
+            finish_num += 1
+        k = 0
+
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -73,9 +106,12 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    bingo_lists = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    bingo_dicts = {'配達員':1, 'タピオカ':2, '噴水':3, '密':4, 'ジョギング':5, 'パトカー':6, 'カップル':7, '鳶':8, '黒マスク':9}
-
+    bingo_lists = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    bingo_dicts = { '配達員':1, 'タピオカ':2, '噴水':3, '密':4, 'ジョギング':5,
+                    'パトカー':6, 'カップル':7, '鳶':8, '黒マスク':9, '10':10,
+                    '犬':11, 'サンダル':12, '痛バック':13, 'ピンクの花':14, '日傘':15,
+                    'マスク入荷':16, '足マーク':17, 'サッカーボール':18, 'ハンバーガー':19, 'インナーカラー':20,
+                    '引っ越しトラック':21, '日本国旗':22, 'ゴミ袋カラス':23, 'ヘルメット通学':24, 'レシート':25 }
     userNum = db.session.query(User).all()
     num = userNum[-1].user_num
 
@@ -84,8 +120,20 @@ def handle_message(event):
     if "終了" in event.message.text:
         message = "終了です\n"
 
-        if is_bingo(numnum) == 1:
-            message += "ビンゴです！"
+        bingo_number = 0
+        bingo_db = db.session.query(Bingo).all()
+        bingo_lists = []
+        n = 0
+
+        for bin_num in reversed(bingo_db):
+            bingo_lists.append(bin_num.bingo_num)
+            n += 1
+
+            if n == 25:
+                break
+
+        if is_bingo(bingo_lists,bingo_number) == 1:
+            message += "{}つビンゴです！".format(bingo_number)
 
         number = 0
     elif event.message.text == "スタート":
@@ -95,8 +143,8 @@ def handle_message(event):
         im_tiles = []
 
         k = 0
-        for i in range(3):
-            for j in range(3):
+        for i in range(5):
+            for j in range(5):
                 im_path = cv2.imread("./static/images/" + str(bingo_lists[k]) + ".png")
                 im_tiles_line.append(im_path)
                 k += 1
@@ -104,13 +152,13 @@ def handle_message(event):
             im_tiles_line = []
 
         im_tile = concat_tile(im_tiles)
-        
+
         cv2.imwrite('./static/images/opencv_concat_tile.jpg', im_tile)
-       
+
         for bin_num2 in reversed(bingo_lists):
             bingo = Bingo(bin_num2)
             db.session.add(bingo)
-            db.session.commit() 
+            db.session.commit()
 
         number = 1
     elif "説明" in event.message.text:
@@ -125,10 +173,10 @@ def handle_message(event):
             bingo_lists.append(bin_num.bingo_num)
             n += 1
 
-            if n == 9:
+            if n == 25:
                 break
 
-    
+
 
         for bingo_dict_key, bingo_dict_value in bingo_dicts.items():
             if bingo_dict_key == event.message.text:
@@ -143,8 +191,8 @@ def handle_message(event):
         im_tiles = []
 
         k = 0
-        for i in range(3):
-            for j in range(3):
+        for i in range(5):
+            for j in range(5):
                 im_path = cv2.imread("./static/images/" + str(bingo_lists[k]) + ".png")
                 im_tiles_line.append(im_path)
                 k += 1

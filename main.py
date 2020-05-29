@@ -84,7 +84,7 @@ def is_bingo(finish_lists, finish_num):
             finish_num += 1
         k = 0
 
-
+    return finish_num
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -132,11 +132,10 @@ def handle_message(event):
             if n == 25:
                 break
 
-        if is_bingo(bingo_lists,bingo_number) != 0:
-            message += "{}つビンゴです！".format(is_bingo(bingo_lists,bingo_number))
-        return finish_num
-        
+        if is_bingo(bingo_lists, bingo_number) != 0:
+            message += "{}つビンゴです！".format(is_bingo(bingo_lists, bingo_number))
         number = 0
+
     elif event.message.text == "スタート":
         random.shuffle(bingo_lists)
 

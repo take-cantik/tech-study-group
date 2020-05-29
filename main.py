@@ -116,7 +116,7 @@ def handle_message(event):
     numnum = 0
 
     if "終了" in event.message.text:
-        message = "終了です"
+        message = "終了です\n"
 
         bingo_number = 0
         bingo_db = db.session.query(Bingo).all()
@@ -131,7 +131,9 @@ def handle_message(event):
                 break
 
         if is_bingo(bingo_lists, bingo_number) != 0:
-            message += "\n{}つビンゴです！".format(is_bingo(bingo_lists, bingo_number))
+            message += "{}つビンゴです！".format(is_bingo(bingo_lists, bingo_number))
+        else:
+            message += "残念！ビンゴならず"
         number = 0
 
     elif event.message.text == "スタート":

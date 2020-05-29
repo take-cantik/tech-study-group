@@ -159,8 +159,6 @@ def handle_message(event):
             db.session.commit()
 
         number = 1
-    elif "説明" in event.message.text:
-        message = "ビンゴの説明"
     elif num == 1:
         bingo_db = db.session.query(Bingo).all()
         message = "ビンゴ\n"
@@ -177,7 +175,7 @@ def handle_message(event):
 
 
         for bingo_dict_key, bingo_dict_value in bingo_dicts.items():
-            if bingo_dict_key == event.message.text:
+            if event.message.text in bingo_dicts_key:
                 for bingo_list in bingo_lists:
                     if bingo_dict_value == bingo_list:
                         bingo_lists[bingo_lists.index(bingo_list)] = 0
@@ -208,7 +206,7 @@ def handle_message(event):
 
         number = 1
     else:
-        message = "散歩ビンゴです。開始したい時は「スタート」やり方を知りたい時は「説明」と打ってね。"
+        message = "散歩ビンゴです。\n開始したい時は「スタート」、終わりたい時は「終了」と打ってね。\n画像に書かれているものを見つけたら、その文字を入力してね。"
         number = 0
 
     num = number

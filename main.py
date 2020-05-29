@@ -108,8 +108,8 @@ def callback():
 def handle_message(event):
     bingo_lists = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
     bingo_dicts = { '配達員':1, 'タピオカ':2, '噴水':3, '密':4, 'ジョギング':5,
-                    'パトカー':6, 'カップル':7, '鳶':8, '黒マスク':9, '10':10,
-                    '犬':11, 'サンダル':12, '痛バック':13, 'ピンクの花':14, '日傘':15,
+                    'パトカー':6, 'カップル':7, '鳶':8, '黒マスク':9, '大きい石':10,
+                    '犬':11, 'サンダル':12, '痛バッグ':13, 'ピンクの花':14, '日傘':15,
                     'マスク入荷':16, '足マーク':17, 'サッカーボール':18, 'ハンバーガー':19, 'インナーカラー':20,
                     '引っ越しトラック':21, '日本国旗':22, 'ゴミ袋カラス':23, 'ヘルメット通学':24, 'レシート':25 }
     userNum = db.session.query(User).all()
@@ -132,9 +132,10 @@ def handle_message(event):
             if n == 25:
                 break
 
-        if is_bingo(bingo_lists,bingo_number) == 1:
-            message += "{}つビンゴです！".format(bingo_number)
-
+        if is_bingo(bingo_lists,bingo_number) != 0:
+            message += "{}つビンゴです！".format(is_bingo(bingo_lists,bingo_number))
+        return finish_num
+        
         number = 0
     elif event.message.text == "スタート":
         random.shuffle(bingo_lists)

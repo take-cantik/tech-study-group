@@ -175,7 +175,7 @@ def handle_message(event):
 
 
         for bingo_dict_key, bingo_dict_value in bingo_dicts.items():
-            if event.message.text in bingo_dict_key:
+            if bingo_dict_key in event.message.text:
                 for bingo_list in bingo_lists:
                     if bingo_dict_value == bingo_list:
                         bingo_lists[bingo_lists.index(bingo_list)] = 0

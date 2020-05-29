@@ -59,7 +59,7 @@ def is_bingo(finish_lists, finish_num):
         k = 0
 
     #横判定
-    for i in range(0,20,5):
+    for i in range(0, 21, 5):
         for j in range(4):
             if finish_lists[i] == finish_lists[i + 1 + j]:
                 k += 1

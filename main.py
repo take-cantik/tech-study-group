@@ -63,9 +63,6 @@ def is_bingo(finish_lists, finish_num):
         for j in range(4):
             if finish_lists[i] == finish_lists[i + 1 + j]:
                 k += 1
-            print("AHIAHI")
-            print(finish_lists[i], finish_lists[i + 1 + j], k, j, i)
-            print("AHIAHI")
         if k == 4:
             finish_num += 1
         k = 0

@@ -52,7 +52,7 @@ def is_bingo(finish_lists, finish_num):
     #縦判定
     for i in range(5):
         for j in range(4):
-            if finish_lists[i] == finish_lists[i+(j+1)*5]:
+            if finish_lists[i] == finish_lists[i + (j + 1) * 5]:
                 k += 1
         if k == 4:
             finish_num += 1
@@ -61,22 +61,25 @@ def is_bingo(finish_lists, finish_num):
     #横判定
     for i in range(0,20,5):
         for j in range(4):
-            if finish_lists[i] == finish_lists[i+1+j]:
+            if finish_lists[i] == finish_lists[i + 1 + j]:
                 k += 1
+            print("AHIAHI")
+            print(finish_list[i], finish_lists[i + 1 + j], k)
+            print("AHIAHI")
         if k == 4:
             finish_num += 1
         k = 0
 
     #斜め判定
     for i in range(4):
-        if finish_lists[0] == finish_lists[(i+1)*6]:
+        if finish_lists[0] == finish_lists[(i + 1) * 6]:
             k += 1
     if k == 4:
         finish_num += 1
     k = 0
 
     for i in range(4):
-        if finish_lists[4] == finish_lists[4+(i+1)*4]:
+        if finish_lists[4] == finish_lists[4 + (i + 1) * 4]:
             k += 1
     if k == 4:
         finish_num += 1

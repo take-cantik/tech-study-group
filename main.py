@@ -185,7 +185,7 @@ def handle_message(event):
 
         im_tile = concat_tile(im_tiles)
         im_time = int(time.time())
-        image_url = 'static/images/opencv_concat_tile' + str(im_time) + '.jpg'
+        image_url = './static/images/opencv_concat_tile' + str(im_time) + '.jpg'
 
         print("------------------------------------------------------")
         print(image_url)
@@ -220,7 +220,7 @@ def handle_message(event):
             im_tiles_line = []
 
         im_tile = concat_tile(im_tiles)
-        image_url = 'static/images/opencv_concat_tile' + str(im_time) + '.jpg'
+        image_url = './static/images/opencv_concat_tile' + str(im_time) + '.jpg'
 
         print("------------------------------------------------------")
         print(image_url)
@@ -246,7 +246,7 @@ def handle_message(event):
     db.session.commit()
 
     if num == 1 or event.message.text == "スタート":
-        images_url = 'https://teuteruahuro.heroku.com/' + image_url
+        images_url = 'https://teuteruahuro.heroku.com/static/images/opencv_concat_tile' + str(im_time) + '.jpg'
 
         print("------------------------------------------------------")
         print(images_url)

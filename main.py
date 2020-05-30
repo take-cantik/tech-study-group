@@ -107,6 +107,11 @@ def handle_message(event):
 
     user_info = db.session.query(User).all()
 
+    print("-----------------------------------------------------")
+    print(user_info)
+    print("-----------------------------------------------------")
+
+
     check_used = 0
     for user_info_id in reversed(user_info):
         if profile.user_id == user_info_id.user_id:

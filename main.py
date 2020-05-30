@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 import random
-
+import time
 import cv2
 import numpy as np
 
@@ -42,6 +42,13 @@ class Bingo(db.Model):
 
     def __init__(self, bingo_num):
         self.bingo_num = bingo_num
+
+class TimeSecond(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    time_second = db.Column(db.Integer, unique=False)
+
+    def __init__(self, time_second):
+        self.time_second = time_second
 
 #関数指定
 def concat_tile(im_list_2d):
@@ -116,6 +123,10 @@ def handle_message(event):
     numnum = 0
 
     if "終了" in event.message.text:
+        finish_time = time.time()
+        db_time = db.session.query(TimeSecond).all()
+        start_time = db_time[-1].time_second
+
         message = "終了です\n"
 
         bingo_number = 0
@@ -134,9 +145,30 @@ def handle_message(event):
             message += "{}つビンゴです！".format(is_bingo(bingo_lists, bingo_number))
         else:
             message += "残念！ビンゴならず"
+
+        finish_time -= start_time
+        message += "あなたの散歩時間は"
+        finish_hour = finish_time/3600
+        finish_minite = finish_time%3600/60
+        finish_second = finish_time%3600%60
+
+        if finish_hour > 0:
+            message += "{0}時間{1}分{2}秒でした".format(finish_hour, finish_minite, finish_second)
+
+        elif finish_minite > 0:
+            message += "{0}分{1}秒でした".format(finish_minite, finish_second)
+
+        else:
+            message += "{0}秒でした".format(finish_second)
+
         number = 0
 
     elif event.message.text == "スタート":
+        now_time = time.time()
+        time_second = TimeSecond(now_time)
+        db.session.add(time_second)
+        db.session.commit()
+
         random.shuffle(bingo_lists)
 
         im_tiles_line = []

@@ -121,6 +121,7 @@ def handle_message(event):
     num = userNum[-1].user_num
 
     numnum = 0
+    num_num = 0
 
     if "終了" in event.message.text:
         finish_time = int(time.time())
@@ -143,8 +144,12 @@ def handle_message(event):
 
         if is_bingo(bingo_lists, bingo_number) != 0:
             message += "{}つビンゴです！".format(is_bingo(bingo_lists, bingo_number))
+            video_url = "https://teruteruahuro.herokuapp.com/static/videos/{}.mp4".format(is_bingo(bingo_lists, bingo_number) // 4)
+            num_num = 1
         else:
             message += "残念！ビンゴならず"
+
+        
 
         finish_time -= start_time
         message += "あなたの散歩時間は"
@@ -261,6 +266,14 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=message))
 
+    if num_num == 1:
+        line_bot_api.reply_message(
+            event.reply_token,
+            VideoSendMessage(
+                original_content_url = video_url,
+                preview_image_url = video_url
+            )
+        )
 
 if __name__ == "__main__":
 #    app.run()

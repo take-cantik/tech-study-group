@@ -108,7 +108,7 @@ def handle_message(event):
     user_info = db.session.query(User).all()
 
     check_used = 0
-    for user_info_id in reversed(user_info)
+    for user_info_id in reversed(user_info):
         if profile.user_id == user_info_id.user_id:
             profile = user_info_id
             check_used += 1

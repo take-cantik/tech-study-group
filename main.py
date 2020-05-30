@@ -158,6 +158,7 @@ def handle_message(event):
         if is_bingo(bingo_lists, bingo_number) != 0:
             message += "{}つビンゴです！".format(is_bingo(bingo_lists, bingo_number))
             video_url = "https://teruteruahuro.herokuapp.com/static/videos/{}.MP4".format(is_bingo(bingo_lists, bingo_number) // 4)
+            preview_url = "https://teruteruahuro.herokuapp.com/static/imeges/{}.jpg".format(is_bingo(bingo_lists, bingo_number) // 4)
             num_num = 1
         else:
             message += "残念！ビンゴならず"
@@ -268,7 +269,7 @@ def handle_message(event):
             event.reply_token,
             VideoSendMessage(
                 original_content_url = video_url,
-                preview_image_url = video_url
+                preview_image_url = preview_url
             )
         )
 

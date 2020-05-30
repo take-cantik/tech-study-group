@@ -148,8 +148,8 @@ def handle_message(event):
 
         finish_time -= start_time
         message += "あなたの散歩時間は"
-        finish_hour = finish_time/3600
-        finish_minite = finish_time%3600/60
+        finish_hour = finish_time//3600
+        finish_minite = finish_time%3600//60
         finish_second = finish_time%3600%60
 
         if finish_hour > 0:

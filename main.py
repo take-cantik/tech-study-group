@@ -50,34 +50,34 @@ def is_bingo(finish_lists, finish_num):
     k = 0
     #縦判定
     for i in range(5):
-        for j in range(4):
-            if finish_lists[i] == finish_lists[i + (j + 1) * 5]:
+        for j in range(0, 21, 5):
+            if finish_lists[i + j] > 100:
                 k += 1
-        if k == 4:
+        if k == 5:
             finish_num += 1
         k = 0
 
     #横判定
     for i in range(0, 21, 5):
-        for j in range(4):
-            if finish_lists[i] == finish_lists[i + 1 + j]:
+        for j in range(5):
+            if finish_lists[i + j] > 100:
                 k += 1
-        if k == 4:
+        if k == 5:
             finish_num += 1
         k = 0
 
     #斜め判定
-    for i in range(4):
-        if finish_lists[0] == finish_lists[(i + 1) * 6]:
+    for i in range(0, 25, 6):
+        if finish_lists[i] > 100:
             k += 1
-    if k == 4:
+    if k == 5:
         finish_num += 1
     k = 0
 
-    for i in range(4):
-        if finish_lists[4] == finish_lists[4 + (i + 1) * 4]:
+    for i in range(4, 21, 4):
+        if finish_lists[i] > 100:
             k += 1
-    if k == 4:
+    if k == 5:
         finish_num += 1
     k = 0
 
@@ -197,7 +197,7 @@ def handle_message(event):
             if bingo_dict_key in event.message.text:
                 for bingo_list in bingo_lists:
                     if bingo_dict_value == bingo_list:
-                        bingo_lists[bingo_lists.index(bingo_list)] = 0
+                        bingo_lists[bingo_lists.index(bingo_list)] += 100
 
         n = 0
 

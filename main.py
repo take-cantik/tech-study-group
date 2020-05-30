@@ -31,9 +31,9 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 #クラス指定
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String[80], unique=False)
+    user_id = db.Column(db.String(80), unique=False)
     user_num = db.Column(db.Integer, unique=False)
-    bingo_num = db.Column(db.String[180], unique=False)
+    bingo_num = db.Column(db.String(180), unique=False)
     time_second = db.Column(db.Integer, unique=False)
 
     def __init__(self, user_id, user_num, bingo_num, time_second):

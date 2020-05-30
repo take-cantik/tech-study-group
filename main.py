@@ -142,15 +142,6 @@ def handle_message(event):
             if n == 25:
                 break
 
-        if is_bingo(bingo_lists, bingo_number) != 0:
-            message += "{}つビンゴです！".format(is_bingo(bingo_lists, bingo_number))
-            video_url = "https://teruteruahuro.herokuapp.com/static/videos/{}.mp4".format(is_bingo(bingo_lists, bingo_number) // 4)
-            num_num = 1
-        else:
-            message += "残念！ビンゴならず"
-
-        
-
         finish_time -= start_time
         message += "あなたの散歩時間は"
         finish_hour = finish_time//3600
@@ -158,13 +149,19 @@ def handle_message(event):
         finish_second = finish_time%3600%60
 
         if finish_hour > 0:
-            message += "{0}時間{1}分{2}秒でした".format(finish_hour, finish_minite, finish_second)
-
+            message += "{0}時間{1}分{2}秒でした\n".format(finish_hour, finish_minite, finish_second)
         elif finish_minite > 0:
-            message += "{0}分{1}秒でした".format(finish_minite, finish_second)
-
+            message += "{0}分{1}秒でした\n".format(finish_minite, finish_second)
         else:
-            message += "{0}秒でした".format(finish_second)
+            message += "{0}秒でした\n".format(finish_second)
+
+        if is_bingo(bingo_lists, bingo_number) != 0:
+            message += "{}つビンゴです！".format(is_bingo(bingo_lists, bingo_number))
+            video_url = "https://teruteruahuro.herokuapp.com/static/videos/{}.MP4".format(is_bingo(bingo_lists, bingo_number) // 4)
+            num_num = 1
+        else:
+            message += "残念！ビンゴならず"
+
 
         number = 0
 

@@ -31,23 +31,15 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 #クラス指定
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String[80], unipue=False)
     user_num = db.Column(db.Integer, unique=False)
-
-    def __init__(self, user_num):
-        self.user_num = user_num
-
-class Bingo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    bingo_num = db.Column(db.Integer, unique=False)
-
-    def __init__(self, bingo_num):
-        self.bingo_num = bingo_num
-
-class TimeSecond(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    bingo_num = db.Column(db.String[180], unique=False)
     time_second = db.Column(db.Integer, unique=False)
 
-    def __init__(self, time_second):
+    def __init__(self, user_id, user_num, bingo_num, time_second):
+        self.user_id = user_id
+        self.user_num = user_num
+        self.bingo_num = bingo_num
         self.time_second = time_second
 
 #関数指定
@@ -111,36 +103,39 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    profile = line_bot_api.get_profile(event.source.user_id)
+
+    user_info = db.session.query(User).all()
+
+    check_used = 0
+    for user_info_id in reversed(user_info)
+        if profile.user_id == user_info_id.user_id:
+            profile = user_info_id
+            check_used += 1
+            break
+
+    if check_used == 1:
+        num = profile.user_num
+    else:
+        num = 0
+
     bingo_lists = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+
     bingo_dicts = { '配達員':1, 'タピオカ':2, '噴水':3, '密':4, 'ジョギング':5,
                     'パトカー':6, 'カップル':7, '鳶':8, '黒マスク':9, '大きい石':10,
                     '犬':11, 'サンダル':12, '痛バッグ':13, 'ピンクの花':14, '日傘':15,
                     'マスク入荷':16, '足マーク':17, 'サッカーボール':18, 'ハンバーガー':19, 'インナーカラー':20,
                     '引っ越しトラック':21, '日本国旗':22, 'ゴミ袋カラス':23, 'ヘルメット通学':24, 'レシート':25 }
-    userNum = db.session.query(User).all()
-    num = userNum[-1].user_num
 
-    numnum = 0
-    num_num = 0
+    is_video = 0
 
-    if "終了" in event.message.text:
+    if "終了" in event.message.text and num == 1:
         finish_time = int(time.time())
-        db_time = db.session.query(TimeSecond).all()
-        start_time = db_time[-1].time_second
+        start_time = profile.time_second
 
         message = "終了です\n"
 
-        bingo_number = 0
-        bingo_db = db.session.query(Bingo).all()
-        bingo_lists = []
-        n = 0
-
-        for bin_num in reversed(bingo_db):
-            bingo_lists.append(bin_num.bingo_num)
-            n += 1
-
-            if n == 25:
-                break
+        bingo_lists = [int(x.strip()) for x in profile.bingo_num.split(',')]
 
         finish_time -= start_time
         message += "あなたの散歩時間は"
@@ -161,10 +156,7 @@ def handle_message(event):
             video_url = "https://teruteruahuro.herokuapp.com/static/videos/" + str(is_bingo(bingo_lists, bingo_number) // 4) + ".MP4"
             preview_url = "https://teruteruahuro.herokuapp.com/static/images/" + str(is_bingo(bingo_lists, bingo_number) // 4) + ".jpg"
 
-            print("--------------------------------------------------")
-            print(video_url, preview_url)
-            print("--------------------------------------------------")
-            num_num = 1
+            is_video = 1
         else:
             message += "残念！ビンゴならず"
 
@@ -172,10 +164,7 @@ def handle_message(event):
         number = 0
 
     elif event.message.text == "スタート":
-        now_time = int(time.time())
-        time_second = TimeSecond(now_time)
-        db.session.add(time_second)
-        db.session.commit()
+        profile.time_second = int(time.time())
 
         random.shuffle(bingo_lists)
 
@@ -195,33 +184,17 @@ def handle_message(event):
 
         cv2.imwrite('./static/images/opencv_concat_tile.jpg', im_tile)
 
-        for bin_num2 in reversed(bingo_lists):
-            bingo = Bingo(bin_num2)
-            db.session.add(bingo)
-            db.session.commit()
-
         number = 1
     elif num == 1:
-        bingo_db = db.session.query(Bingo).all()
+        bingo_lists = [int(x.strip()) for x in profile.bingo_num.split(',')]
+
         message = "ビンゴ\n"
-        bingo_lists = []
-        n = 0
-        m = 0
-        for bin_num in reversed(bingo_db):
-            bingo_lists.append(bin_num.bingo_num)
-            n += 1
-
-            if n == 25:
-                break
-
-
 
         for bingo_dict_key, bingo_dict_value in bingo_dicts.items():
             if bingo_dict_key in event.message.text:
                 for bingo_list in bingo_lists:
                     if bingo_dict_value == bingo_list:
                         bingo_lists[bingo_lists.index(bingo_list)] = 0
-                        m = 1
 
         n = 0
 
@@ -240,19 +213,20 @@ def handle_message(event):
         im_tile = concat_tile(im_tiles)
         cv2.imwrite('./static/images/opencv_concat_tile.jpg', im_tile)
 
-        if m == 1:
-            for bin_num2 in reversed(bingo_lists):
-                bingo = Bingo(bin_num2)
-                db.session.add(bingo)
-                db.session.commit()
-
         number = 1
     else:
         message = "散歩ビンゴです！\n開始したい時は「スタート」、終わりたい時は「終了」と打ってね！\n画像に書かれているものを見つけたら、その文字を入力してね！"
         number = 0
 
     num = number
-    user = User(num)
+    bingo_lists_str = map(str, bingo_lists)
+    bingo_lists = ','.join(bingo_list_str)
+    if check_used == 1:
+        time_db = profile.time_second
+    else:
+        time_db = 0
+
+    user = User(profile.user_id, num, bingo_lists, profile.time_second)
     db.session.add(user)
     db.session.commit()
 
@@ -264,7 +238,7 @@ def handle_message(event):
                 preview_image_url="https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg"
             )
         )
-    elif num_num == 1:
+    elif is_video == 1:
         line_bot_api.reply_message(
             event.reply_token,
             [TextSendMessage(text=message),

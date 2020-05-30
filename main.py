@@ -185,11 +185,7 @@ def handle_message(event):
 
         im_tile = concat_tile(im_tiles)
         im_time = int(time.time())
-        image_url = './static/images/ahiahi.jpg'
-
-        print("------------------------------------------------------")
-        print(image_url)
-        print("------------------------------------------------------")
+        image_url = './static/images/' + str(im_time) + '.jpg'
 
         cv2.imwrite(image_url, im_tile)
 
@@ -223,10 +219,6 @@ def handle_message(event):
         im_time = int(time.time())
         image_url = './static/images/' + str(im_time) + '.jpg'
 
-        print("------------------------------------------------------")
-        print(image_url)
-        print("------------------------------------------------------")
-
         cv2.imwrite(image_url, im_tile)
 
         number = 1
@@ -247,11 +239,7 @@ def handle_message(event):
     db.session.commit()
 
     if num == 1 or event.message.text == "スタート":
-        images_url = 'https://teruteruahuro.herokuapp.com/static/images/ahiahi.jpg'
-
-        print("------------------------------------------------------")
-        print(images_url)
-        print("------------------------------------------------------")
+        images_url = 'https://teruteruahuro.herokuapp.com/static/images/' + str(im_time) + '.jpg'
 
         line_bot_api.reply_message(
             event.reply_token,

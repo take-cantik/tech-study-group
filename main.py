@@ -185,7 +185,7 @@ def handle_message(event):
 
         im_tile = concat_tile(im_tiles)
         im_time = int(time.time())
-        image_url = './static/images/' + str(im_time) + '.jpg'
+        image_url = './static/images/ahiahi.jpg'
 
         print("------------------------------------------------------")
         print(image_url)

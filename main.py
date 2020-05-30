@@ -267,12 +267,11 @@ def handle_message(event):
     else:
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=message))
-
-    if num_num == 1:
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=video_url)
+            [TextSendMessage(text=message),
+            VideoSendMessage(
+                original_content_url = video_url,
+                preview_image_url = preview_url
+            )]
         )
 
 if __name__ == "__main__":

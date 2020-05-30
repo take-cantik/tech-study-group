@@ -220,6 +220,7 @@ def handle_message(event):
             im_tiles_line = []
 
         im_tile = concat_tile(im_tiles)
+        im_time = int(time.time())
         image_url = './static/images/opencv_concat_tile' + str(im_time) + '.jpg'
 
         print("------------------------------------------------------")

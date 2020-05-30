@@ -157,8 +157,13 @@ def handle_message(event):
 
         if is_bingo(bingo_lists, bingo_number) != 0:
             message += "{}つビンゴです！".format(is_bingo(bingo_lists, bingo_number))
+
             video_url = "https://teruteruahuro.herokuapp.com/static/videos/" + str(is_bingo(bingo_lists, bingo_number) // 4) + ".MP4"
             preview_url = "https://teruteruahuro.herokuapp.com/static/imeges/" + str(is_bingo(bingo_lists, bingo_number) // 4) + ".jpg"
+
+            print("--------------------------------------------------")
+            print(video_url, preview_url)
+            print("--------------------------------------------------")
             num_num = 1
         else:
             message += "残念！ビンゴならず"

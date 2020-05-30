@@ -225,7 +225,7 @@ def handle_message(event):
 
     num = number
     bingo_lists_str = map(str, bingo_lists)
-    bingo_lists = ','.join(bingo_list_str)
+    bingo_lists = ','.join(bingo_lists_str)
     if check_used == 1:
         time_db = profile.time_second
     else:

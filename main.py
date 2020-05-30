@@ -184,8 +184,10 @@ def handle_message(event):
             im_tiles_line = []
 
         im_tile = concat_tile(im_tiles)
+        im_time = int(time.time())
+        image_url = 'static/images/opencv_concat_tile' + str(im_time) + '.jpg'
 
-        cv2.imwrite('./static/images/opencv_concat_tile.jpg', im_tile)
+        cv2.imwrite(image_url, im_tile)
 
         number = 1
     elif num == 1:
@@ -214,7 +216,9 @@ def handle_message(event):
             im_tiles_line = []
 
         im_tile = concat_tile(im_tiles)
-        cv2.imwrite('./static/images/opencv_concat_tile.jpg', im_tile)
+        image_url = 'static/images/opencv_concat_tile' + str(im_time) + '.jpg'
+
+        cv2.imwrite(image_url, im_tile)
 
         number = 1
     else:
@@ -234,11 +238,13 @@ def handle_message(event):
     db.session.commit()
 
     if num == 1 or event.message.text == "スタート":
+        images_url = 'https://teuteruahuro.heroku.com/' + image_url
+
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
-                original_content_url="https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg",
-                preview_image_url="https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg"
+                original_content_url=images_url,
+                preview_image_url=images_url
             )
         )
     elif is_video == 1:

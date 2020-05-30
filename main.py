@@ -107,11 +107,6 @@ def handle_message(event):
 
     user_info = db.session.query(User).all()
 
-    print("-----------------------------------------------------")
-    print(user_info)
-    print("-----------------------------------------------------")
-
-
     check_used = 0
     for user_info_id in reversed(user_info):
         if profile.user_id == user_info_id.user_id:
@@ -231,7 +226,7 @@ def handle_message(event):
     else:
         time_db = 0
 
-    user = User(profile.user_id, num, bingo_lists, profile.time_second)
+    user = User(profile.user_id, num, bingo_lists, time_db)
     db.session.add(user)
     db.session.commit()
 

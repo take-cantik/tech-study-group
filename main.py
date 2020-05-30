@@ -260,8 +260,8 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
-                original_content_url = "https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg",
-                preview_image_url = "https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg"
+                original_content_url="https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg",
+                preview_image_url="https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg"
             )
         )
     else:
@@ -272,10 +272,7 @@ def handle_message(event):
     if num_num == 1:
         line_bot_api.reply_message(
             event.reply_token,
-            VideoSendMessage(
-                original_content_url = video_url,
-                preview_image_url = preview_url
-            )
+            TextSendMessage(text=original_content_url)
         )
 
 if __name__ == "__main__":

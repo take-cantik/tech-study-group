@@ -247,7 +247,7 @@ def handle_message(event):
     db.session.commit()
 
     if num == 1 or event.message.text == "スタート":
-        images_url = 'https://teuteruahuro.heroku.com/static/images/ahiahi.jpg'
+        images_url = 'https://teruteruahuro.heroku.com/static/images/ahiahi.jpg'
 
         print("------------------------------------------------------")
         print(images_url)

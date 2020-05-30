@@ -119,7 +119,10 @@ def handle_message(event):
     else:
         num = 0
 
-    bingo_lists = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    bingo_lists = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                    31, 32, 33, 34, 35, 36, 37, 38 ]
 
     bingo_dicts = { '配達員':1, 'タピオカ':2, '噴水':3, '密':4, 'ジョギング':5,
                     'パトカー':6, 'カップル':7, '鳶':8, '黒マスク':9, '大きい石':10,
@@ -173,6 +176,7 @@ def handle_message(event):
         profile.time_second = int(time.time())
 
         random.shuffle(bingo_lists)
+        del bingo_lists[-13:]
 
         im_tiles_line = []
         im_tiles = []

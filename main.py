@@ -264,7 +264,7 @@ def handle_message(event):
                 preview_image_url="https://teruteruahuro.herokuapp.com/static/images/opencv_concat_tile.jpg"
             )
         )
-    else:
+    elif num_num == 1:
         line_bot_api.reply_message(
             event.reply_token,
             [TextSendMessage(text=message),
@@ -272,6 +272,11 @@ def handle_message(event):
                 original_content_url = video_url,
                 preview_image_url = preview_url
             )]
+        )
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message)
         )
 
 if __name__ == "__main__":

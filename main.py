@@ -123,7 +123,7 @@ def handle_message(event):
     numnum = 0
 
     if "終了" in event.message.text:
-        finish_time = time.time()
+        finish_time = int(time.time())
         db_time = db.session.query(TimeSecond).all()
         start_time = db_time[-1].time_second
 
@@ -164,7 +164,7 @@ def handle_message(event):
         number = 0
 
     elif event.message.text == "スタート":
-        now_time = time.time()
+        now_time = int(time.time())
         time_second = TimeSecond(now_time)
         db.session.add(time_second)
         db.session.commit()

@@ -187,6 +187,10 @@ def handle_message(event):
         im_time = int(time.time())
         image_url = 'static/images/opencv_concat_tile' + str(im_time) + '.jpg'
 
+        print("------------------------------------------------------")
+        print(image_url)
+        print("------------------------------------------------------")
+
         cv2.imwrite(image_url, im_tile)
 
         number = 1
@@ -218,6 +222,10 @@ def handle_message(event):
         im_tile = concat_tile(im_tiles)
         image_url = 'static/images/opencv_concat_tile' + str(im_time) + '.jpg'
 
+        print("------------------------------------------------------")
+        print(image_url)
+        print("------------------------------------------------------")
+
         cv2.imwrite(image_url, im_tile)
 
         number = 1
@@ -239,6 +247,10 @@ def handle_message(event):
 
     if num == 1 or event.message.text == "スタート":
         images_url = 'https://teuteruahuro.heroku.com/' + image_url
+
+        print("------------------------------------------------------")
+        print(images_url)
+        print("------------------------------------------------------")
 
         line_bot_api.reply_message(
             event.reply_token,

@@ -175,7 +175,7 @@ def handle_message(event):
         else:
             message += "残念！ビンゴならず"
 
-        if is_bingo(bingo_lists,bingo_number) >= 4 and finish_minite < 5 and finish_hour < 1:
+        if is_bingo(bingo_lists, bingo_number) >= 2 and finish_minite < 5 and finish_hour < 1:
             message += "\nチートしませんでしたか？？？？？"
 
         number = 0

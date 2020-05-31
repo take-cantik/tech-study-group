@@ -162,7 +162,7 @@ def handle_message(event):
             message += "散歩お疲れ様でした！\n"
         else:
             message += "よく頑張りました\nお疲れ様でした！\n"
-
+# WARNING: Z
         bingo_number = 0
 
         if is_bingo(bingo_lists, bingo_number) != 0:
@@ -175,7 +175,7 @@ def handle_message(event):
         else:
             message += "残念！ビンゴならず"
 
-        if is_bingo(bingo_lists,bingo_number) >= 8 and finish_minite < 5 and finish_hour < 1:
+        if is_bingo(bingo_lists,bingo_number) >= 4 and finish_minite < 5 and finish_hour < 1:
             message += "\nチートしませんでしたか？？？？？"
 
         number = 0

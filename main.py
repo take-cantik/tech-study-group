@@ -167,7 +167,7 @@ def handle_message(event):
             message += "散歩お疲れ様でした！\n"
         else:
             message += "よく頑張りました\nお疲れ様でした！\n"
-# WARNING: Z
+
         bingo_number = 0
 
         if is_bingo(bingo_lists, bingo_number) != 0:
@@ -186,7 +186,10 @@ def handle_message(event):
         number = 0
 
     elif event.message.text == "スタート":
-        profile.time_second = int(time.time())
+        if check_used == 0:
+            time_db = int(time.time())
+        else:
+            profile.time_second = int(time.time())
 
         random.shuffle(bingo_lists)
         del bingo_lists[-13:]
@@ -252,7 +255,8 @@ def handle_message(event):
     if check_used == 1:
         time_db = profile.time_second
     else:
-        time_db = 0
+        if event.message.text != "スタート":
+            time_db = 0
 
     user = User(profile.user_id, num, bingo_lists, time_db)
     db.session.add(user)

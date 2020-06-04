@@ -222,7 +222,7 @@ def handle_message(event):
             if bingo_dict_key in event.message.text:
                 for bingo_list in bingo_lists:
                     if bingo_dict_value == bingo_list:
-                        if bingo_lists[bingo_lists.index(bingo_list)] > 100:
+                        if bingo_lists[bingo_lists.index(bingo_list)] < 100:
                             bingo_lists[bingo_lists.index(bingo_list)] += 100
 
         n = 0
